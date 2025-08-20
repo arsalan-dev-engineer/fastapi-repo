@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+sqlalchemy        # ORM if using databases
+databases         # async DB support
+alembic           # DB migrations
+jinja2            # templating
+httpx             # async HTTP client
+requests          # sync HTTP client
