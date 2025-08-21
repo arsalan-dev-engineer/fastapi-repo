@@ -1,10 +1,14 @@
 fastapi
 uvicorn[standard]
-pydantic
+pydantic[email]
+pydantic-settings   # ✅ needed for BaseSettings in v2
 python-dotenv
-sqlalchemy        # ORM if using databases
-databases         # async DB support
-alembic           # DB migrations
-jinja2            # templating
-httpx             # async HTTP client
-requests          # sync HTTP client
+sqlalchemy
+databases
+alembic
+jinja2
+httpx
+requests
+sqlalchemy 
+databases 
+alembic
