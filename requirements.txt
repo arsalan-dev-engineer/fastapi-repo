@@ -1,4 +1,5 @@
 fastapi
+fastapi[standard]
 uvicorn[standard]
 pydantic[email]
 pydantic-settings   # ✅ needed for BaseSettings in v2
@@ -12,3 +13,4 @@ requests
 sqlalchemy 
 databases 
 alembic
+psycopg2
