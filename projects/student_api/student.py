@@ -20,15 +20,13 @@ class GenderEnum(str, Enum):
 
 # =====================
 # Input model for creating a student
-# Email is auto-generated
 # =====================
 class StudentCreate(BaseModel):
-    first_name: str = Field(description="Student's firstname")
-    last_name: str = Field(description="Student's lastname")
-    age: Annotated[int, conint(gt=18)] = Field(description="Student's age")
-    gender: GenderEnum = Field(description="Student's gender")
-    phone: Annotated[str, constr(pattern=r"^\+?\d{7,15}$")] = \
-        Field(description="Valid phone number")
+    first_name: str
+    last_name: str
+    age: Annotated[int, conint(gt=18)]
+    gender: GenderEnum
+    phone: Annotated[str, constr(pattern=r"^\+?\d{7,15}$")]
 
 
 # =====================
@@ -44,14 +42,14 @@ class StudentUpdate(BaseModel):
 
 # =====================
 # Full student model
-# Includes soft delete via is_active
+# Soft delete via is_active
 # =====================
 class Student(StudentCreate):
     id: UUID = Field(default_factory=uuid4)
-    email: EmailStr = Field(description="Auto-generated email")
+    email: EmailStr
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
-    is_active: bool = Field(default=True)
+    is_active: bool = True
 
 
 # =====================
@@ -75,10 +73,14 @@ STUDENTS: List[Student] = [
 
 
 # =====================
-# Normalize phone (simple)
+# Normalize phone numbers
+# Keep '+' and digits only
 # =====================
 def normalize_phone(phone: str) -> str:
-    return re.sub(r'\D', '', phone)  # keep only digits
+    phone = re.sub(r"[^\d+]", "", phone)
+    if not phone.startswith("+"):
+        phone = "+" + phone
+    return phone
 
 
 # =====================
@@ -87,14 +89,14 @@ def normalize_phone(phone: str) -> str:
 def generate_student_email(first_name: str,
                            last_name: str,
                            exclude_id: Optional[UUID] = None) -> str:
-    base_email = f"{first_name.lower()}.{last_name.lower()} \
-        @student-university.co.uk"
+    first_name = first_name.lower().strip()
+    last_name = last_name.lower().strip()
+    base_email = f"{first_name}.{last_name}@student-university.co.uk"
     email = base_email
     counter = 1
     while any(s.email == email and s.id != exclude_id for s in STUDENTS):
         counter += 1
-        email = f"{first_name.lower()}.{last_name.lower()}{counter} \
-            @student-university.co.uk"
+        email = f"{first_name}.{last_name}{counter}@student-university.co.uk"
     return email
 
 
@@ -109,9 +111,7 @@ async def landing_page():
 # =====================
 # Get all active students
 # =====================
-@app.get("/students",
-         response_model=List[Student],
-         status_code=status.HTTP_200_OK)
+@app.get("/students", response_model=List[Student])
 async def get_all_students():
     return [s for s in STUDENTS if s.is_active]
 
@@ -124,10 +124,8 @@ async def get_all_students():
           status_code=status.HTTP_201_CREATED)
 async def add_student(student: StudentCreate):
     student.phone = normalize_phone(student.phone)
-    generated_email = generate_student_email(student.first_name,
-                                             student.last_name)
-    new_student = Student(**student.model_dump(),
-                          email=generated_email)
+    email = generate_student_email(student.first_name, student.last_name)
+    new_student = Student(**student.model_dump(), email=email)
     STUDENTS.append(new_student)
     return new_student
 
@@ -136,14 +134,13 @@ async def add_student(student: StudentCreate):
 # Update student safely
 # =====================
 @app.put("/students/{student_id}",
-         response_model=Student,
-         status_code=status.HTTP_200_OK)
+         response_model=Student)
 async def update_student(student_id: UUID, student_update: StudentUpdate):
     for student in STUDENTS:
         if student.id == student_id and student.is_active:
             update_data = student_update.model_dump(exclude_unset=True)
-            if 'phone' in update_data:
-                update_data['phone'] = normalize_phone(update_data['phone'])
+            if "phone" in update_data:
+                update_data["phone"] = normalize_phone(update_data["phone"])
             for key, value in update_data.items():
                 setattr(student, key, value)
             if update_data.get("first_name") or update_data.get("last_name"):
@@ -158,9 +155,7 @@ async def update_student(student_id: UUID, student_update: StudentUpdate):
 # =====================
 # Soft delete student
 # =====================
-@app.delete("/students/{student_id}",
-            response_model=Student,
-            status_code=status.HTTP_200_OK)
+@app.delete("/students/{student_id}", response_model=Student)
 async def delete_student(student_id: UUID):
     for student in STUDENTS:
         if student.id == student_id and student.is_active:
@@ -171,11 +166,9 @@ async def delete_student(student_id: UUID):
 
 
 # =====================
-# Search students with filters, pagination, and sorting
+# Search students with filters, pagination, sorting
 # =====================
-@app.get("/students/search",
-         response_model=List[Student],
-         status_code=status.HTTP_200_OK)
+@app.get("/students/search", response_model=List[Student])
 async def search_students(
     first_name: Optional[str] = Query(None),
     last_name: Optional[str] = Query(None),
@@ -192,32 +185,47 @@ async def search_students(
 
     # Filtering
     if first_name:
-        results = [s for s in results if first_name.lower()
-                   in s.first_name.lower()]
+        results = [
+            s for s in results if first_name.lower() in s.first_name.lower()
+        ]
     if last_name:
-        results = [s for s in results if last_name.lower()
-                   in s.last_name.lower()]
+        results = [
+            s for s in results if last_name.lower() in s.last_name.lower()
+        ]
     if email:
-        results = [s for s in results if email.lower() in s.email.lower()]
+        results = [
+            s for s in results if email.lower() in s.email.lower()
+        ]
     if gender:
-        results = [s for s in results if s.gender == gender]
+        results = [
+            s for s in results if s.gender == gender
+        ]
     if min_age is not None:
-        results = [s for s in results if s.age >= min_age]
+        results = [
+            s for s in results if s.age >= min_age
+        ]
     if max_age is not None:
-        results = [s for s in results if s.age <= max_age]
+        results = [
+            s for s in results if s.age <= max_age
+        ]
 
-    # Sorting robustly
+    # Sorting safely
     if sort_by in {"first_name", "last_name", "email", "age"}:
         reverse = (sort_order or "asc").lower() == "desc"
-        results.sort(key=lambda s: getattr(s, sort_by, ""), reverse=reverse)
+
+        def sort_key(s):
+            val = getattr(s, sort_by)
+            return val.lower() if isinstance(val, str) else val
+
+        results.sort(key=sort_key, reverse=reverse)
 
     # Pagination
     paginated = results[skip: skip + limit]
-
     if not paginated:
-        raise HTTPException(status_code=404,
-                            detail="No matching students found")
+        raise HTTPException(
+            status_code=404, detail="No matching students found")
     return paginated
+
 
 # =====================
 # PROJECT NOTES
