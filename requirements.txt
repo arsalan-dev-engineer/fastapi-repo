@@ -1,16 +1,35 @@
-fastapi
-fastapi[standard]
-uvicorn[standard]
-pydantic[email]
-pydantic-settings   # ✅ needed for BaseSettings in v2
-python-dotenv
-sqlalchemy
-databases
-alembic
-jinja2
-httpx
-requests
-sqlalchemy 
-databases 
-alembic
-psycopg2
+fastapi # needed for building the API
+fastapi[standard] # needed for full FastAPI features
+uvicorn[standard] # needed for running the app
+pydantic[email] # needed for email validation
+pydantic-settings  # needed for BaseSettings in v2
+python-dotenv # needed for .env file support
+sqlalchemy # needed for ORM support
+databases # needed for async db support
+alembic # needed for migrations
+jinja2 # needed for templating
+httpx # needed for async http requests
+requests # needed for sync http requests
+sqlalchemy # needed for ORM support
+databases # needed for async db support
+alembic # needed for migrations
+psycopg2 # needed for PostgreSQL
+asyncpg # needed for async PostgreSQL
+psycopg[binary] # needed for PostgreSQL with binary dependencies
+aiosmtplib # needed for async email sending
+email-validator # needed for email validation
+passlib[bcrypt] # needed for password hashing
+python-multipart # needed for form data parsing
+jinja2 # needed for templating
+httpx # needed for async http requests
+requests # needed for sync http requests
+pytest # needed for testing
+pytest-asyncio # needed for async tests
+pytest-cov # needed for test coverage
+httpx # needed for async http requests in tests
+requests # needed for sync http requests in tests
+black # needed for code formatting
+isort # needed for import sorting
+flake8 # needed for linting
+mypy # needed for type checking
+python-dotenv # needed for .env file support
