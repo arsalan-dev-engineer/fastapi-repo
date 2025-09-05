@@ -1,0 +1,91 @@
+from enum import Enum as PyEnum
+from database import Base
+import uuid
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+from sqlalchemy import Column, String, Integer, Float, Boolean, Enum, DateTime
+from enum import Enum
+from pydantic import BaseModel, Field
+from datetime import datetime, timezone
+from uuid import uuid4, UUID
+from pydantic.types import Partial
+
+
+# =====================
+# Enums = fixed choices
+# =====================
+class TransmissionEnum(str, Enum):
+    manual = "Manual"
+    automatic = "Automatic"
+
+
+class FuelTypeEnum(str, Enum):
+    petrol = "Petrol"
+    diesel = "Diesel"
+    hybrid = "Hybrid"
+    electric = "Electric"
+    plugin_hybrid = "Plugin Hybrid"
+
+
+class BodyTypeEnum(str, Enum):
+    cabriolet = "Cabriolet"
+    coupe = "Coupe"
+    estate = "Estate"
+    hatchback = "Hatchback"
+    mpv = "MPV"
+    saloon = "Saloon"
+    van = "Van"
+    suv = "SUV"
+
+
+# =====================
+# Vehicle input (create)
+# =====================
+class VehicleCreate(BaseModel):
+    """
+    Input model for creating a new vehicle.
+    All fields are required and validated.
+    """
+    make: str
+    model: str
+    body_type: BodyTypeEnum
+    engine_size: float = Field(gt=0)  # must be > 0
+    transmission: TransmissionEnum
+    vehicle_age: int = Field(ge=0)    # no negative ages
+    fuel_type: FuelTypeEnum
+    colour: str
+    vehicle_price: float = Field(ge=0)  # no negative prices
+
+
+# =====================
+# Vehicle input (update)
+# All fields optional
+# =====================
+class VehicleUpdate(Partial[VehicleCreate]):
+    """
+    Input model for updating a vehicle.
+    Same fields as VehicleCreate, but all optional.
+    Use for PATCH/PUT requests.
+    """
+    pass
+
+
+# =====================
+# Vehicle full model
+# System-managed fields
+# =====================
+class Vehicle(VehicleCreate):
+    """
+    Full vehicle model used by the system.
+    Extends VehicleCreate with system-managed fields:
+    - id (UUID)
+    - created_at / updated_at timestamps
+    - is_available (soft delete flag)
+    """
+    id: UUID = Field(default_factory=uuid4)  # unique ID
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc)
+    )  # when added
+    updated_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc)
+    )  # when last touched
+    is_available: bool = True  # soft delete flag
