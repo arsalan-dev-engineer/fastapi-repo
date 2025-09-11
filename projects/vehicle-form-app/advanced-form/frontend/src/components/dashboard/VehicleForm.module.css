@@ -1,0 +1,78 @@
+/* page container */
+.pageContainer {
+    padding: 2rem;
+}
+
+/* form wrapper */
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    /* vertical spacing between rows */
+}
+
+/* labels */
+.formLabel {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* inputs and selects */
+.formControl {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.2s, box-shadow 0.2s;
+    height: 2.8rem;
+}
+
+.formControl:focus {
+    outline: none;
+    border-color: #2466bd;
+    /* theme color on focus */
+    box-shadow: 0 0 0 0.2rem rgba(36, 102, 189, 0.25);
+}
+
+/* submit button */
+.btnSubmit {
+    align-self: flex-start;
+    /* keep button left-aligned */
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #2b4d6d;
+    /* primary theme color */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 2rem;
+    width: 10rem;
+}
+
+.btnSubmit:hover {
+    background-color: #4d8be7;
+    transform: translateY(-1px);
+}
+
+.btnSubmit:active {
+    transform: translateY(0);
+}
+
+/* responsive tweaks */
+@media (max-width: 576px) {
+    .formContainer {
+        gap: 1rem;
+    }
+
+    .btnSubmit {
+        width: 100%;
+        text-align: center;
+    }
+}

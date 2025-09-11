@@ -8,3 +8,4 @@ pydantic-settings
 passlib[bcrypt]
 PyJWT
 python-multipart       # for form/file uploads
+alembic

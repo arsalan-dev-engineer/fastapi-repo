@@ -1,69 +1,46 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### File structure for backend/
 
-Currently, two official plugins are available:
+```backend/
+├── main.py                # FastAPI app entry point (very lightweight)
+├── database.py            # DB engine, session, Base
+├── models/
+│   └── vehicle.py         # SQLAlchemy models (Vehicle, User)
+├── schemas/
+│   └── vehicle.py         # Pydantic schemas (VehicleCreate, VehicleOut)
+├── routers/
+│   └── vehicles.py        # Routes related to vehicles
+│   └── users.py           # Routes related to users
+├── crud/
+│   └── vehicle.py         # DB logic: create, read, update vehicles
+│   └── user.py            # DB logic: create, read users
+├── alembic/               # Alembic migration folder
+│   └── ...                # Auto-generated
+└── requirements.txt       # Your dependencies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+frontend/
+├── src/
+│   └── components/
+│       └── VehicleStats.tsx  # React component for stats
+│   └── App.tsx
+└── package.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### File structure for backend/
+```src/
+├── App.tsx              // Routing + global layout
+├── pages/
+│   ├── Dashboard.tsx    // Main dashboard page
+│   ├── AddData.tsx      // Another page/tab
+│   └── Reports.tsx      // (example extra page)
+├── components/
+│   ├── Dashboard/
+│   │   ├── TotalVehicle.tsx
+│   │   ├── SalesChart.tsx
+│   │   ├── StatsCard.tsx
+│   │   └── Dashboard.module.css
+│   └── Shared/
+│       ├── Navbar.tsx
+│       └── Footer.tsx
 ```

@@ -28,7 +28,7 @@ export default function VehicleForm() {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/vehicle/', {
+      const response = await fetch('http://localhost:8000/vehicles/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

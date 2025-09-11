@@ -1,0 +1,98 @@
+/* -------------------------------
+   github-like system font stack
+   roboto first, fallback to system fonts if missing
+-------------------------------- */
+$system-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+   Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+$font-size-base: 1rem;       // base font size for everything
+$line-height-base: 1.5;      // spacing between lines
+$headings-font-weight: 600;  // make headings slightly bold
+
+/* -------------------------------
+   bootstrap variable overrides
+   define these BEFORE importing bootstrap
+-------------------------------- */
+$primary: rgb(36, 102, 189); // main theme color (all primary buttons, alerts, etc.)
+$prefix: "mo-";              // add prefix to all bootstrap classes to avoid conflicts
+
+$spacer: 1rem; // spacing unit used by bootstrap helpers (m-*, p-*, etc.)
+$container-max-widths: (
+   sm: 540px,
+   md: 720px,
+   lg: 960px,
+   xl: 1140px,
+   xxl: 1320px
+); // max widths for responsive containers
+
+$btn-border-radius: 0;      // make all buttons square
+$btn-border-radius-lg: 0;   // large buttons square
+$btn-border-radius-sm: 0;   // small buttons square
+
+/* -------------------------------
+   import bootstrap after overrides
+-------------------------------- */
+@import "bootstrap/scss/bootstrap";
+
+/* -------------------------------
+   base styles for document
+   make html/body/root full height and dark theme
+-------------------------------- */
+html,
+body,
+#root {
+   height: 100%;
+   font-family: "Roboto", $system-fonts, sans-serif; // fallback included
+   background-color: #24292f; // dark github-like background
+   margin: 0; // reset default margin
+   padding: 0; // reset default padding
+}
+
+/* -------------------------------
+   app layout helper classes
+-------------------------------- */
+.app-layout {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh; // fill full viewport height
+}
+
+.app-content {
+   flex: 1; // makes main content grow to push footer down
+}
+
+/* -------------------------------
+   global reset for all elements
+-------------------------------- */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box; // makes sizing predictable
+}
+
+/* -------------------------------
+   global heading for all elements
+-------------------------------- */
+/* Optional subtle divider for section headings */
+.heading--primary {
+  font-size: 2rem;
+  border-bottom: 1px solid #d0d7de;
+  /* light gray border */
+  padding-bottom: 0.3rem;
+  margin-bottom: 2rem;
+}
+
+.heading--secondary {
+  font-size: 1.5rem;
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 0.25rem;
+}
+
+.heading--tertiary {
+  font-size: 1.25rem;
+}
+
+.heading--small {
+  font-size: 1rem;
+  color: #57606a;
+  /* lighter gray */
+}

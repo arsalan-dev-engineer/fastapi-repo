@@ -1,0 +1,55 @@
+/* 
+NOTES
+Padding = the white mat inside the frame around the photo.
+Margin = the empty wall space around the frame itself.
+
+*/
+.mainContainer {
+  background-color: antiquewhite;
+  padding: 1rem;
+  /* inner spacing between content and border */
+  border-radius: 15px;
+  width: 100%;
+  /* responsive full width */
+  max-width: 1200px;
+  /* don’t stretch too wide */
+  margin: 1rem auto;
+  /* <-- space around container (top/bottom + center horizontally) */
+  height: auto;
+  /* dynamic height based on content */
+}
+
+.tabContent>div {
+  /* only target divs that are direct children of .tabContent
+     not nested divs inside those divs
+     this adds top margin to each tab content container 
+     */
+  margin-top: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* Dashboard.module.css */
+.tabButton {
+  border-radius: 0;
+  /* square edges */
+  padding: 0.5rem 1rem;
+  /* custom padding */
+  background-color: #3f5066;
+  /* default color */
+  color: #fff;
+  transition: background 0.2s;
+  margin-right: 20px;
+  border-radius: 10px;
+  /* remove border colour */
+  border: none;
+  width: 10rem;
+}
+
+.tabButtonActive {
+  background-color: #3777d8;
+  /* darker when active */
+}

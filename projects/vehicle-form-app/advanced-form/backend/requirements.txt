@@ -1,0 +1,47 @@
+# -------------------------
+# fastapi core
+# -------------------------
+fastapi               # core web framework
+uvicorn[standard]     # ASGI server to run FastAPI apps (with extras: watchgod, httptools)
+
+# -------------------------
+# database / ORM
+# -------------------------
+SQLAlchemy            # ORM to talk to databases easily
+PyMySQL               # pure python MySQL driver, no system libs needed
+python-dotenv         # load .env files (like HOST, PORT, secrets)
+
+# -------------------------
+# data validation / serialization
+# -------------------------
+pydantic              # FastAPI uses it for input/output validation
+
+# -------------------------
+# optional / dev tools
+# -------------------------
+alembic               # database migrations (version control for DB)
+httpx                  # async HTTP client, useful for testing APIs
+
+# -------------------------
+# code formatting
+# -------------------------
+black                 # automatic code formatter
+isort                 # sorts imports nicely
+
+# -------------------------
+# type checking
+# -------------------------
+mypy                  # static type checker for your code
+types-PyYAML           # typing stubs for YAML if needed
+types-requests         # typing stubs for requests
+
+# -------------------------
+# linting / quality
+# -------------------------
+flake8                # linter for style errors
+pylint                # stricter linter, optional
+
+# -------------------------
+# git hooks / automation
+# -------------------------
+pre-commit            # run hooks automatically before committing
