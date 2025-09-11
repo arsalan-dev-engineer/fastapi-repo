@@ -1,38 +1,74 @@
-# ---- Python ----
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-*.db
-*.sqlite3
-*.egg-info/
-*.log
-.env
-.venv/
-env/
-venv/
-
-# FastAPI specific
-instance/
-*.db
-*.sqlite
-*.sqlite3
-
-# ---- Node / React ----
-node_modules/
+# -----------------------------
+# logs
+# -----------------------------
+**/*.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
-.pnp/
-.pnp.js
-.pnp.cjs
-.pnpm-debug.log*
-.vscode/
-dist/
-build/
+pnpm-debug.log*
+lerna-debug.log*
 
-# ---- General ----
-.DS_Store
-Thumbs.db
+# -----------------------------
+# Node / React
+# -----------------------------
+**/node_modules/
+**/build/
+**/dist/
+**/dist-ssr/
+**/.env
+
+# -----------------------------
+# Python / FastAPI
+# -----------------------------
+**/__pycache__/
+**/*.py[cod]
+**/venv/
+**/.pytest_cache/
+**/.mypy_cache/
+**/pip-log.txt
+
+# -----------------------------
+# editor directories and OS files
+# -----------------------------
+.vscode/
+!.vscode/extensions.json
 .idea/
-*.swp
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# -----------------------------
+# database / temporary files
+# -----------------------------
+*.sqlite3
+
+# -----------------------------
+# / coverage | test reports
+# -----------------------------
+**/coverage/
+**/htmlcov/
+
+# -----------------------------
+# compiled Python artifacts
+# -----------------------------
+**/*.egg-info/
+**/*.egg
+**/*.whl
+
+# -----------------------------
+# database files
+# -----------------------------
+*.db
+
+# -----------------------------
+# FastAPI auto-generated docs or temp files (rare, but safe):
+# -----------------------------
+**/*.log
+**/__pydantic_cache__/
+
+# -----------------------------
+# React environment overrides or storybook outputs:
+# -----------------------------
+**/.storybook-out/

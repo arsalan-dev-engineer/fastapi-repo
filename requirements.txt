@@ -33,3 +33,4 @@ isort # needed for import sorting
 flake8 # needed for linting
 mypy # needed for type checking
 python-dotenv # needed for .env file support
+pymysql
